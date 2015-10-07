@@ -66,6 +66,7 @@
         NoPrivateReadonlyField = 74,
         MergeNestedIf = 75,
         SplitIntoNestedIf = 76,
+        NullParameterCheck = 78,
         NumericLiteral = 79,
         TernaryOperator_Iif = 80,
         UseStaticRegexIsMatch = 81,
