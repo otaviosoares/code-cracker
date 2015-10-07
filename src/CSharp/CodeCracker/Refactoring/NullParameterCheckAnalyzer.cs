@@ -19,7 +19,7 @@ namespace CodeCracker.CSharp.Refactoring
             Title,
             MessageFormat,
             Category,
-            DiagnosticSeverity.Error,
+            DiagnosticSeverity.Hidden,
             isEnabledByDefault: true,
             helpLinkUri: HelpLink.ForDiagnostic(DiagnosticId.NullParameterCheck));
 
@@ -34,14 +34,10 @@ namespace CodeCracker.CSharp.Refactoring
             var localDeclaration = (MethodDeclarationSyntax)context.Node;
             if (!localDeclaration.ParameterList.Parameters.Any()) return;
 
-            var variableDeclaration = localDeclaration.ChildNodes()
-                .OfType<ParameterListSyntax>()
-                .FirstOrDefault();
-
             var semanticModel = context.SemanticModel;
             foreach (var parameter in localDeclaration.ParameterList.Parameters)
             {
-                var variableType = semanticModel.GetTypeInfo(parameter).ConvertedType;
+                var variableType = semanticModel.GetTypeInfo(parameter.Type).ConvertedType;
                 if (!variableType.IsReferenceType) continue;
 
                 var diagnostic = Diagnostic.Create(Rule, parameter.GetLocation());

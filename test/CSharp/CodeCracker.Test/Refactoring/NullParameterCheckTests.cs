@@ -23,19 +23,18 @@ namespace CodeCracker.Test.CSharp.Refactoring
             await VerifyCSharpHasNoDiagnosticsAsync(test.WrapInCSharpMethod());
         }
 
-
         [Fact]
         public async Task ReferenceTypeParameterProducesDiagnostic()
         {
-            const string source = @"void main(string i)
+            const string source = @"void main(string s)
 {}";
 
             var expected = new DiagnosticResult
             {
-                Id = DiagnosticId.StringRepresentation_RegularString.ToDiagnosticId(),
-                Message = "Change to regular string",
+                Id = DiagnosticId.NullParameterCheck.ToDiagnosticId(),
+                Message = "Check for null parameters to avoid NullReferenceException.",
                 Severity = DiagnosticSeverity.Hidden,
-                Locations = new[] { new DiagnosticResultLocation("Test0.cs", 6, 17) }
+                Locations = new[] { new DiagnosticResultLocation("Test0.cs", 2, 11) }
             };
             await VerifyCSharpDiagnosticAsync(source, expected);
         }
